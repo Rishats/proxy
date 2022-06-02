@@ -1,0 +1,6 @@
+.env
+.idea
+proxy
+main
+.DS_Store
+vendor
