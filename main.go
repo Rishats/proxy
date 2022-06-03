@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -24,6 +25,9 @@ func main() {
 	}
 
 	proxy := httputil.NewSingleHostReverseProxy(remote)
+	proxy.Transport = &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
 	http.HandleFunc("/", handler(proxy))
 	err = http.ListenAndServe(":"+os.Getenv("PORT"), nil)
 	if err != nil {
